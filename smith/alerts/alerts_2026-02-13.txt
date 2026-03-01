@@ -1,0 +1,26 @@
+==================================================
+🚨 Python Shelled Out
+Python.exe (Python) started the cmd.exe shell.
+Matching log entries:
+
+timestamp: 2026-02-13 11:41:08 | hostname: DESKTOP-IAGNT81 | username: DESKTOP-IAGNT81\flynn | processid: 5672 | process: cmd.exe | parentprocessid: 17004 | parentimage: python.exe | image: C:\Windows\System32d.exe /c
+
+timestamp: 2026-02-13 11:41:24 | hostname: DESKTOP-IAGNT81 | username: DESKTOP-IAGNT81\flynn | processid: 16272 | process: cmd.exe | parentprocessid: 17004 | parentimage: python.exe | image: C:\Windows\System32d.exe /c ipconfig
+
+timestamp: 2026-02-13 11:49:35 | hostname: DESKTOP-IAGNT81 | username: DESKTOP-IAGNT81\flynn | processid: 468 | process: cmd.exe | parentprocessid: 17004 | parentimage: python.exe | image: C:\Windows\System32\cexe /c net user
+
+timestamp: 2026-02-13 11:50:10 | hostname: DESKTOP-IAGNT81 | username: DESKTOP-IAGNT81\flynn | processid: 12264 | process: cmd.exe | parentprocessid: 17004 | parentimage: python.exe | image: C:\Windows\System3md.exe /c net view
+
+==================================================
+
+==================================================
+ 🚨 Python Internet Activity
+Python made an unusual outbound connection.
+Matching log entries:
+
+timestamp: 2026-02-13 11:39:22 | hostname: DESKTOP-IAGNT81 | username: DESKTOP-IAGNT81\flynn | category: network_connection | process: python.exe | processid: 16788 | sourceip: 192.168.1.42 | sourceport: 61458 | destinationip: 34.41.118.55 | destinationport: 8080 | status: SYN_SENT | sid: S-1-5-80-956008885-3418522649-1831038044-1853292631-2271478464
+
+timestamp: 2026-02-13 11:40:59 | hostname: DESKTOP-IAGNT81 | username: DESKTOP-IAGNT81\flynn | category: network_connection | process: python.exe | processid: 17004 | sourceip: 192.168.1.42 | sourceport: 61566 | destinationip: 34.41.118.55 | destinationport: 8080 | status: ESTABLISHED | sid: 
+S-1-5-80-956008885-3418522649-1831038044-1853292631-2271478464
+
+==================================================

@@ -1,0 +1,8 @@
+Agent,Task,Prompt,Tools
+Background Processor,Dispatches unread alerts to the right analyst; parses severity; saves to CSV,none (dispatcher),none
+Alert Analyst (answer),Single question about security alerts,alert_analyst_answer.txt,"query_alerts, get_alert_summary, search_alerts, query_events_by_pid, query_events_by_process_name, build_process_tree, lookup_ip_info, query_network_events"
+Alert Analyst (batch),Processes all alerts sequentially with per-alert memory,alert_analyst_batch.txt + alert_prompt.txt,"query_alerts, get_alert_summary, search_alerts, query_events_by_pid, query_events_by_process_name, build_process_tree, lookup_ip_info, query_network_events"
+New Analyst,Analyzes behavioral anomalies (new services/drivers/autoruns/tasks),new_analyst.txt,"query_new_events, query_new_services, get_event_summary, search_new_events"
+Status Agent,User-facing REPL - status/progress/close alerts/route questions,hardcoded logic,none (delegates to analysts)
+Status Agent (routing),LLM classifies question as ALERTS vs NEW_EVENTS,routing.txt,none
+Router Agent,Alternative entry point that routes questions,needs verification,delegates to analysts

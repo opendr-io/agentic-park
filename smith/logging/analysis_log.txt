@@ -1,0 +1,110 @@
+[2026-02-28 19:18:11] [extract_alert_events] [INFO] ====================================================================================================
+[2026-02-28 19:18:11] [extract_alert_events] [INFO] EXTRACTING OPENDR ALERT EVENTS
+[2026-02-28 19:18:11] [extract_alert_events] [INFO] ====================================================================================================
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   Merged tracking values into 'alert_status', preserved event status data
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   Loaded 9 existing alerts from exports\alert_events.csv
+[2026-02-28 19:18:11] [extract_alert_events] [INFO] Parsed 15 alert events from alerts
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   Preserving 9 existing 'read' values
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   Preserving 9 existing 'alert_status' values
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   Preserving 9 existing 'severity' values
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   Preserving 9 existing 'analysis' values
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   Preserving 9 existing 'analyzed_by' values
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   Preserving 9 existing 'analyzed_at' values
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   Found 6 new alerts to add
+[2026-02-28 19:18:11] [extract_alert_events] [INFO] ----------------------------------------------------------------------------------------------------
+[2026-02-28 19:18:11] [extract_alert_events] [INFO] STATISTICS
+[2026-02-28 19:18:11] [extract_alert_events] [INFO] ----------------------------------------------------------------------------------------------------
+[2026-02-28 19:18:11] [extract_alert_events] [INFO] Total events: 15
+[2026-02-28 19:18:11] [extract_alert_events] [INFO] Unique alerts: 7
+[2026-02-28 19:18:11] [extract_alert_events] [INFO] Unique hosts: 1
+[2026-02-28 19:18:11] [extract_alert_events] [INFO] Unique processes: 4
+[2026-02-28 19:18:11] [extract_alert_events] [INFO] Unique event types: 2
+[2026-02-28 19:18:11] [extract_alert_events] [INFO] 
+Field population:
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   process: 10 (66.7%)
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   commandline: 1 (6.7%)
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   sourceip: 5 (33.3%)
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   destinationip: 5 (33.3%)
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   servicename: 3 (20.0%)
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   parentimage: 5 (33.3%)
+[2026-02-28 19:18:11] [extract_alert_events] [INFO] 
+Alerts by event count:
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]      4 - 🚨 Python Shelled Out
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]      3 - ⚠️ New Service
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]      2 - ⚠️ New Driver
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]      2 - ⚠️Sublime Text Internet Activity
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]      2 - 🚨 Python Internet Activity
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]      1 - 🚨 Cursor Shelled Out
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]      1 - ⚠️Cursor Internet Activity
+[2026-02-28 19:18:11] [extract_alert_events] [INFO] ====================================================================================================
+[2026-02-28 19:18:11] [extract_alert_events] [SUCCESS] ✓ Alert events saved to: exports\alert_events.csv
+[2026-02-28 19:18:11] [extract_alert_events] [INFO] ====================================================================================================
+[2026-02-28 19:18:11] [extract_alert_events] [INFO] 
+Sample events (first 5):
+[2026-02-28 19:18:11] [extract_alert_events] [INFO] ----------------------------------------------------------------------------------------------------
+[2026-02-28 19:18:11] [extract_alert_events] [INFO] 
+⚠️ New Driver
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   Time: 2026-01-02 12:09:09
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   Host: DESKTOP-IAGNT81
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   Event: new driver found
+[2026-02-28 19:18:11] [extract_alert_events] [INFO] 
+⚠️ New Driver
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   Time: 2026-01-02 14:16:50
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   Host: DESKTOP-IAGNT81
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   Event: new driver found
+[2026-02-28 19:18:11] [extract_alert_events] [INFO] 
+🚨 Cursor Shelled Out
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   Time: 2026-01-12 10:21:58
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   Host: DESKTOP-IAGNT81
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   User: DESKTOP-IAGNT81\flynn
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   Category: process_creation
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   Process ID: 65532.0
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   Process: cmd.exe
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   Parent PID: 150768.0
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   Parent Image: Cursor.exe
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   Command: C:\WINDOWS\system32\cmd.exe /d /s /c %windir%\System32\REG.exe QUERY HKEY_LOCAL_MACHINE\SOFTWARE\Mic...
+[2026-02-28 19:18:11] [extract_alert_events] [INFO] 
+⚠️ New Service
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   Time: 2026-01-12 11:18:46
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   Host: DESKTOP-IAGNT81
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   User: LocalSystem
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   Event: new service
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   PID: 76644.0
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   Service: VM3DService
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   Display Name: VMware SVGA Helper Service
+[2026-02-28 19:18:11] [extract_alert_events] [INFO] 
+⚠️ New Service
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   Time: 2026-01-12 11:18:46
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   Host: DESKTOP-IAGNT81
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   User: LocalSystem
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   Event: new service
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   Service: vmvss
+[2026-02-28 19:18:11] [extract_alert_events] [INFO]   Display Name: VMware Snapshot Provider
+[2026-02-28 19:18:12] [delegate_event_search] [PRINT] .
+[2026-02-28 19:18:12] [delegate_event_search] [PRINT] .
+[2026-02-28 19:18:12] [delegate_event_search] [PRINT]  done!
+Data loaded:  - 14 alerts  - 0 event log entries
+Background processing started.
+========================================Never send a human to do a machine's job
+
+███████╗███╗   ███╗██╗████████╗██╗  ██╗
+██╔════╝████╗ ████║██║╚══██╔══╝██║  ██║
+███████╗██╔████╔██║██║   ██║   ███████║
+╚════██║██║╚██╔╝██║██║   ██║   ██╔══██║
+███████║██║ ╚═╝ ██║██║   ██║   ██║  ██║
+╚══════╝╚═╝     ╚═╝╚═╝   ╚═╝   ╚═╝  ╚═╝                                                                                                                                
+[2026-02-28 19:18:12] [delegate_event_search] [PRINT] ========================================
+  [p] progress      - How many alerts analyzed vs. remaining  [m] memory        - Memory/token usage across agents  [a] alert <#>     - Full details for alert (by list number)  [e] events        - All events for the selected alert  [c] close <#>     - Close alert (by list number)  [s] status        - List open alerts  [i] important     - Show high severity alerts  [b] breakdown     - Show alert types  [f] filter        - Show intercepted alerts  [x] exit          - Exit  [w] when is the Boston Security Meetup  Or ask any security question...
+[2026-02-28 19:18:12] [delegate_event_search] [PRINT] Smith> 
+[2026-02-28 19:18:12] [extract_alert_events] [INFO]   Preserving 9 existing 'read' values
+[2026-02-28 19:18:12] [extract_alert_events] [INFO]   Preserving 14 existing 'alert_status' values
+[2026-02-28 19:18:12] [extract_alert_events] [INFO]   Preserving 9 existing 'severity' values
+[2026-02-28 19:18:12] [extract_alert_events] [INFO]   Preserving 9 existing 'analysis' values
+[2026-02-28 19:18:12] [extract_alert_events] [INFO]   Preserving 9 existing 'analyzed_by' values
+[2026-02-28 19:18:12] [extract_alert_events] [INFO]   Preserving 9 existing 'analyzed_at' values
+[2026-02-28 19:18:12] [extract_alert_events] [INFO]   Found 1 new alerts to add
+[2026-02-28 19:18:12] [alert_tracker] [INFO] Loaded 14 alerts from exports\alert_events.csv
+[2026-02-28 19:18:12] [extract_alert_events] [PRINT] Loaded 14 alerts from exports\alert_events.csv
+[2026-02-28 19:18:23] [delegate_event_search] [PRINT] 
+Exiting...
+Session ended.

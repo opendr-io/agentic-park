@@ -1,0 +1,30 @@
+## Analysis: Cursor IDE Querying Machine GUID
+
+**What happened:**
+Cursor.exe (an AI-powered code editor based on VS Code) spawned cmd.exe to query the Windows Machine GUID from the registry. The specific command was:
+```
+REG.exe QUERY HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography /v MachineGuid
+```
+
+**Key Observations:**
+
+✅ **Cursor is Known Benign Software:**
+- Cursor.exe is in the known-benign database with 9 entries showing typical IDE behavior (crashpad handlers, GPU processes, renderer processes, node services)
+- It's a legitimate development tool installed in `C:\Program Files\cursor\`
+
+⚠️ **The Command Itself:**
+- Querying the Machine GUID is commonly used for device fingerprinting and licensing
+- Many legitimate applications (IDEs, development tools, license managers) read this value to generate unique machine identifiers
+- This is a **read-only** registry query with no system modification
+
+⚠️ **Investigation Limitations:**
+- The event stream couldn't locate the specific cmd.exe or REG.exe execution, suggesting either a data collection gap or the process events weren't fully captured
+- The PIDs in the alert (150768, 65532) were recycled and don't match actual Cursor.exe activity at the alert timestamp
+- Two other Cursor.exe instances (PIDs 88728, 234556) were active with network connections around this time
+
+**Context:**
+This behavior is consistent with Cursor performing license validation, telemetry, or user authentication. AI-powered IDEs often need to identify the machine for licensing purposes or to associate code completions with specific installations.
+
+**Did you open or use Cursor around 10:21 AM on January 12th?** If this was during your normal development work, this is expected IDE behavior. If you weren't using Cursor at that time or don't have it installed, that would be concerning.
+
+**SEVERITY: LOW**

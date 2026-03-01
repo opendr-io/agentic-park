@@ -1,0 +1,9 @@
+# Known Benign Patterns
+# Lines starting with # are comments. Blank lines are ignored.
+# Describe false positive patterns here in plain language.
+# Both the alert analyst and behavioral anomaly analyst will see these
+# and classify matching alerts as FALSE POSITIVE / LOW severity.
+#
+# Format: just describe the pattern naturally. Examples:
+#   Sublime Text connecting to sublimetext.com or sublimehq.com on port 443 is auto-update checking.
+#   VMware tools services (vm3dservice, vmvss, vmtools) are expected on VMware virtual machines.

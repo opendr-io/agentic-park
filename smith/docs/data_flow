@@ -1,0 +1,201 @@
+
+System and data flow diagrams: 
+
+┌───────────────────────────────────────────────────────────── ┐
+│                    MAIN PROCESS                              │
+│                  (Router Agent)                              │
+│                                                              │
+│   notify_user()                                              │
+│        │                                                     │
+│        ▼                                                     │
+│   Write .pending_alerts.json ──────────────┐                 │
+│        │                                    │                │
+│        ▼                                    │                │
+│   subprocess.Popen("start cmd /k ...")      │                │
+│        │                                    │                │
+│        ▼                                    │                │
+│   Wait for .alert_results.json              │                │
+│        │                                    │                │
+└────────┼────────────────────────────────────┼────────────────┘
+         │                                    │
+         │    ┌───────────────────────────────┼───────────────┐
+         │    │     SPAWNED CMD WINDOW         │              │
+         │    │                                ▼              │
+         │    │    Read .pending_alerts.json                  │
+         │    │              │                                │
+         │    │              ▼                                │
+         │    │    ┌────────────────────┐                     │
+         │    │    │   ALERTS           │                     │
+         │    │    │   ┌──────────────┐ │                     │
+         │    │    │   │ ASCII Banner │ │                     │
+         │    │    │   │ Alert List   │ │                     │
+         │    │    │   │ User Menu    │ │                     │
+         │    │    │   └──────────────┘ │                     │
+         │    │    │                    │                     │
+         │    │    │   Claude Chat      │◄── User input       │
+         │    │    │   INVESTIGATE      │                     │
+         │    │    │   ESCALATE         │                     │
+         │    │    │   DISMISS          │                     │
+         │    │    │   DEFER            │                     │
+         │    │    └────────────────────┘                     │
+         │    │              │                                │
+         │    │              ▼                                │
+         │    │    Write .alert_results.json ─────────────────┤
+         │    │                                               │
+         │    └───────────────────────────────────────────────┘
+         │                                    │
+         ▼                                    │
+   Read results ◄─────────────────────────────┘
+         │
+         ▼
+   Return acknowledgments
+
+
+
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                              AGENT SMITH                                        │
+│                         Security Analysis Pipeline                              │
+└─────────────────────────────────────────────────────────────────────────────────┘
+
+                                 DATA SOURCES
+┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐
+│   Log Files  │  │ Alert Files  │  │  dump/new    │  │  FP Hashes   │
+│  (dump/*.*)  │  │ (alerts/*.log)│ │ (behavioral) │  │ (fp-data/)   │
+└──────┬───────┘  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘
+       │                 │                 │                 │
+       ▼                 ▼                 │                 │
+┌──────────────┐  ┌──────────────┐         │                 │
+│load_logs_to_ │  │extract_alert_│         │                 │
+│  dataframe   │  │   events     │         │                 │
+└──────┬───────┘  └──────┬───────┘         │                 │
+       │                 │                 │                 │
+       │                 ▼                 │                 │
+       │          ┌──────────────┐         │                 │
+       │          │  match_fps   │◄────────┼─────────────────┘
+       │          └──────┬───────┘         │
+       │                 │                 │
+       │                 ▼                 │
+       │          ┌──────────────┐         │
+       │          │ deduplicate_ │         │
+       │          │    alerts    │         │
+       │          └──────┬───────┘         │
+       │                 │                 │
+       ▼                 ▼                 ▼
+┌──────────────────────────────────────────────────────────────────┐
+│                         SHARED DATAFRAMES                        │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐               │
+│  │  events_df  │  │  alerts_df  │  │   new_df    │               │
+│  │ (full logs) │  │  (alerts)   │  │ (behavioral)│               │
+│  └─────────────┘  └─────────────┘  └─────────────┘               │
+└──────────────────────────┬───────────────────────────────────────┘
+                           │
+                           ▼
+┌──────────────────────────────────────────────────────────────────┐
+│                       ORCHESTRATOR.PY                            │
+│                    (Pipeline Controller)                         │
+└──────────────────────────┬───────────────────────────────────────┘
+                           │
+                           ▼
+┌──────────────────────────────────────────────────────────────────┐
+│                      ROUTER AGENT                                │
+│                  (run_router_agent.py)                           │
+│  ┌────────────────────────────────────────────────────────────┐  │
+│  │                    AlertTracker                            │  │
+│  │  tracks: None → "processing|ts" → "read|ts"                │  │
+│  └────────────────────────────────────────────────────────────┘  │
+│                                                                  │
+│  ┌────────────────────────────────────────────────────────────┐  │
+│  │                   ROUTING RULES                            │  │
+│  │  Pattern Match on alert_name:                              │  │
+│  │    • "new service|driver|autorun|task" → new_analyst       │  │
+│  │    • "network|shell|suspicious|exploit" → alert_analyst    │  │
+│  └────────────────────────────────────────────────────────────┘  │
+└───────────────────────────┬──────────────────────────────────────┘
+                            │
+            ┌───────────────┴───────────────┐
+            │      route_alert()            │
+            │   format_alert_as_question()  │
+            ▼                               ▼
+┌───────────────────────┐       ┌───────────────────────┐
+│    ALERT ANALYST      │       │  NEW ANALYST          │
+│ (run_alert_analyst.py)│       │ (run_new_analyst.py)  │
+│                       │       │                       │
+│ answer_question()     │       │ answer_question()     │
+│                       │       │                       │
+│ TOOLS:                │       │ TOOLS:                │
+│ • query_alerts        │       │ • query_new_events    │
+│ • get_alert_summary   │       │ • get_event_summary   │
+│ • search_alerts       │       │ • search_new_events   │
+│ • query_events_by_pid │       │                       │
+│ • query_events_by_    │       │                       │
+│   process_name        │       │                       │
+│ • build_process_tree  │       │                       │
+│ • lookup_ip_info      │       │                       │
+│ • query_network_events│       │                       │
+└───────────┬───────────┘       └───────────┬───────────┘
+            │                               │
+            │     Claude API (LangChain)    │
+            │                               │
+            └───────────────┬───────────────┘
+                            │
+                            ▼
+                ┌───────────────────────┐
+                │   ANALYST RESPONSE    │
+                │  + SEVERITY RATING    │
+                │ (LOW/MEDIUM/HIGH/     │
+                │  CRITICAL)            │
+                └───────────┬───────────┘
+                            │
+                            ▼
+                ┌───────────────────────┐
+                │   parse_severity()    │
+                │   mark_read()         │
+                └───────────┬───────────┘
+                            │
+            ┌───────────────┴───────────────┐
+            │                               │
+            ▼                               ▼
+┌───────────────────────┐       ┌───────────────────────┐
+│   LOW/MEDIUM          │       │   HIGH/CRITICAL       │
+│   (logged only)       │       │   notify_user()       │
+│                       │       │   → User Alert        │
+└───────────────────────┘       └───────────────────────┘
+                                            │
+                                            ▼
+                                ┌───────────────────────┐
+                                │   INTERACTIVE MODE    │
+                                │   (User Q&A)          │
+                                │                       │
+                                │   User asks question  │
+                                │         ↓             │
+                                │   route_question()    │
+                                │         ↓             │
+                                │   ask_agent()         │
+                                │         ↓             │
+                                │   Return answer       │
+                                └───────────────────────┘
+
+
+                           PERSISTENCE LAYER
+┌──────────────────────────────────────────────────────────────────┐
+│                                                                  │
+│  exports/alert_events.csv     ←── AlertTracker read/write        │
+│    • 'read' column tracks processing state                       │
+│    • alert_hash for deduplication                                │
+│                                                                  │
+│  exports/alerts_dd.csv        ←── Deduplicated alerts            │
+│                                                                  │
+│  logging/router_agent.log     ←── Router activity logs           │
+│                                                                  │
+└──────────────────────────────────────────────────────────────────┘
+Flow Summary:
+
+Ingestion: Log files and alert files are loaded into DataFrames
+Preprocessing: False positives are matched, alerts are deduplicated
+Orchestrator: Coordinates the pipeline and passes DataFrames to router
+Router Agent:
+Uses AlertTracker for two-phase read tracking (crash recovery)
+Routes alerts to specialists based on alert_name pattern matching
+Collects responses and parses severity ratings
+Specialist Agents: Analyze alerts using their domain-specific tools
+Output: HIGH/CRITICAL alerts notify user; then interactive Q&A mode begins

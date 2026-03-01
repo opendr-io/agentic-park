@@ -1,0 +1,37 @@
+## Analysis: VMware Snapshot Provider Service (vmvss)
+
+**Service Details:**
+- **Service Name:** vmvss
+- **Display Name:** VMware Snapshot Provider
+- **Executable:** `C:\WINDOWS\system32\dllhost.exe /Processid:{6353A7D0-7FEE-4A1C-ACE3-41216D022559}`
+- **Status:** Stopped (Manual start)
+- **Created by:** LocalSystem
+
+**Key Findings:**
+
+✅ **Legitimate VMware Component:**
+- The `vmvss` service is a genuine VMware Snapshot Provider service used for Volume Shadow Copy Service (VSS) integration
+- Allows VMware products to create consistent snapshots of Windows systems
+- Commonly installed with VMware Tools or VMware Workstation
+
+✅ **Installation Context:**
+- A `setup64.exe` installer ran ~4 minutes before the service appeared (11:14:12)
+- The installer connected to Akamai CDN (184.31.68.129) to download components
+- User `flynn` initiated the installation
+- This timing strongly suggests legitimate software installation
+
+✅ **Safe Configuration:**
+- Service is set to **Manual** start (not automatic)
+- Currently **Stopped** (not running)
+- Uses standard Windows `dllhost.exe` as a COM surrogate host
+- Located in legitimate system32 directory
+
+⚠️ **Minor Observations:**
+- The CLSID {6353A7D0-7FEE-4A1C-ACE3-41216D022559} is VMware-specific
+- No immediate execution of the service detected
+- Service creation mechanism not directly captured in logs (likely internal to installer)
+
+**Conclusion:**
+This is a **benign VMware component** installed by a legitimate setup process. The service provides snapshot functionality for VMware virtualization products. The manual start configuration and stopped status indicate it will only run when needed for snapshot operations.
+
+**SEVERITY: LOW**

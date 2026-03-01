@@ -7,3 +7,5 @@ Some sample alert data is provided so that it can do something out of the box. S
 Usage: install the modules in requirements.txt, populate a key in the .env file and run:
 
 ```python orchestrator.py```
+
+There is a show and tell video here: https://youtu.be/lsh3JRne9sg
